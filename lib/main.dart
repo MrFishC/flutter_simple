@@ -9,6 +9,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_simple/widget/index.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'fn_go/fn_error.dart';
+import 'fn_go/fn_net.dart';
+import 'fn_go/test_request.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -80,8 +84,9 @@ class MyApp extends StatelessWidget {
       // home: TurnBoxRoute(),
       // home: CustomPaintRoute(),
       // home: FileOperationRoute(),
-      home: HttpTestRoute(),
+      // home: HttpTestRoute(),
 
+      home: const FnGoTestPage(title: "Fn_go test"),
       // routes: {
       //   "new_page":(context) => NewRoute(),
       //   "/":(context) => NewRoute1(),
@@ -91,13 +96,64 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class FnGoTestPage extends StatefulWidget {
+  final String title;
+
+  const FnGoTestPage({Key? key, required this.title}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _FnGoTestPageState();
+  }
+}
+
+class _FnGoTestPageState extends State<FnGoTestPage> {
+  int _counter = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.title)),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('You have pushed the button this many times:'),
+            Text('$_counter',style: Theme.of(context).textTheme.headline1,)
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  void _incrementCounter() async {
+    TestRequest request = TestRequest();
+    request.add("aid", "7");
+    print("fn_go object:${request.url()}");
+    try {
+      var result = await FnNet.getInstance().fire(request);
+      print(result);
+    } on NeedAuth catch (e) {
+      print(e);
+    } on NeedLogin catch (e) {
+      print(e);
+    } on FnError catch (e) {
+      print(e);
+    }
+  }
+}
+
 class HttpTestRoute extends StatefulWidget {
   @override
   _HttpTestRouteState createState() => _HttpTestRouteState();
 }
 
 class _HttpTestRouteState extends State<HttpTestRoute> {
-
   bool _loading = false;
   String _text = "";
 
@@ -106,7 +162,8 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          ElevatedButton(onPressed: _loading ? null : requst, child: Text("获取百度首页")),
+          ElevatedButton(
+              onPressed: _loading ? null : requst, child: Text("获取百度首页")),
           Container(
             width: MediaQuery.of(context).size.width - 50.0,
             child: Text(_text.replaceAll(RegExp(r"\s"), "")),
@@ -116,15 +173,16 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
     );
   }
 
-  requst() async{
+  requst() async {
     setState(() {
       _loading = true;
       _text = "正在请求...";
     });
 
-    try{
+    try {
       HttpClient httpClient = HttpClient();
-      HttpClientRequest request = await httpClient.getUrl(Uri.parse("https://www.baidu.com"));
+      HttpClientRequest request =
+          await httpClient.getUrl(Uri.parse("https://www.baidu.com"));
       // request.headers.add(
       //
       // );
@@ -132,27 +190,25 @@ class _HttpTestRouteState extends State<HttpTestRoute> {
       _text = await response.transform(utf8.decoder).join();
       print(response.headers);
       httpClient.close();
-    }catch(e){
+    } catch (e) {
       setState(() {
         _loading = false;
       });
-    }finally{
+    } finally {
       setState(() {
         _loading = false;
       });
     }
   }
-
 }
-class FileOperationRoute extends StatefulWidget {
 
+class FileOperationRoute extends StatefulWidget {
   FileOperationRoute({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     return _FileOperationRouteState();
   }
-
 }
 
 class _FileOperationRouteState extends State<FileOperationRoute> {
@@ -189,7 +245,9 @@ class _FileOperationRouteState extends State<FileOperationRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('文件操作'),),
+      appBar: AppBar(
+        title: Text('文件操作'),
+      ),
       body: Center(
         child: Text('点击了 $_counter 次'),
       ),
@@ -200,16 +258,17 @@ class _FileOperationRouteState extends State<FileOperationRoute> {
       ),
     );
   }
-
 }
 
 //自定义组件的方法  组合 自绘（两种）
 
 class CustomPaintRoute extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text("自绘组件"),),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("自绘组件"),
+      ),
       body: Center(
         child: CustomPaint(
           size: Size(300, 300),
@@ -218,11 +277,9 @@ class CustomPaintRoute extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class MyPainter extends CustomPainter {
-
   @override
   void paint(Canvas canvas, Size size) {
     print("paint");
@@ -269,7 +326,8 @@ class MyPainter extends CustomPainter {
 
     canvas.drawCircle(
         Offset(rect.center.dx - eWidth / 2, rect.center.dy - eHeight / 2),
-        min(eWidth / 2, eHeight / 2) - 2, paint);
+        min(eWidth / 2, eHeight / 2) - 2,
+        paint);
 
     paint.color = Colors.white;
     canvas.drawCircle(
@@ -278,7 +336,6 @@ class MyPainter extends CustomPainter {
       paint,
     );
   }
-
 }
 
 class TurnBoxRoute extends StatefulWidget {
@@ -416,8 +473,8 @@ class RouterTestRoute extends StatelessWidget {
           onPressed: () async {
             var result = await Navigator.push(context,
                 MaterialPageRoute(builder: (context) {
-                  return TipRoute(text: "传递路由参数");
-                }));
+              return TipRoute(text: "传递路由参数");
+            }));
             print("路由返回值: $result");
           },
           child: Text("打开提示页"),
@@ -713,8 +770,7 @@ class PointerDownListener extends SingleChildRenderObjectWidget {
 
   @override
   RenderObject createRenderObject(BuildContext context) =>
-      RenderPointerDownListener()
-        ..onPointerDown = onPointerDown;
+      RenderPointerDownListener()..onPointerDown = onPointerDown;
 }
 
 class RenderPointerDownListener extends RenderProxyBox {
@@ -1171,15 +1227,13 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     required this.maxHeight,
     this.minHeight = 0,
     required Widget child,
-  })
-      : builder = ((a, b, c) => child),
+  })  : builder = ((a, b, c) => child),
         assert(minHeight <= maxHeight && minHeight >= 0);
 
   SliverHeaderDelegate.fixedHeight({
     required double height,
     required Widget child,
-  })
-      : builder = ((a, b, c) => child),
+  })  : builder = ((a, b, c) => child),
         maxHeight = height,
         minHeight = height;
 
@@ -1190,8 +1244,8 @@ class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   });
 
   @override
-  Widget build(BuildContext context, double shrinkOffset,
-      bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     Widget child = builder(context, shrinkOffset, overlapsContent);
     assert(() {
       if (child.key != null) {
@@ -1246,7 +1300,7 @@ class PersistentHeaderRoute extends StatelessWidget {
   Widget buildSliverList([int count = 5]) {
     return SliverFixedExtentList(
         delegate: SliverChildBuilderDelegate(
-              (context, index) {
+          (context, index) {
             return ListTile(title: Text('$index'));
           },
           childCount: count,
@@ -1292,7 +1346,7 @@ class CustomScrollView3 extends StatelessWidget {
                 childAspectRatio: 4.0,
               ),
               delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
+                (BuildContext context, int index) {
                   return Container(
                     alignment: Alignment.center,
                     color: Colors.cyan[100 * (index % 9)],
@@ -1304,9 +1358,9 @@ class CustomScrollView3 extends StatelessWidget {
             ),
           ),
           SliverFixedExtentList(
-            //列表
+              //列表
               delegate:
-              SliverChildBuilderDelegate((BuildContext context, int index) {
+                  SliverChildBuilderDelegate((BuildContext context, int index) {
                 return Container(
                   alignment: Alignment.center,
                   color: Colors.lightBlue[100 * (index % 9)],
@@ -1324,7 +1378,7 @@ class CustomScrollView1 extends StatelessWidget {
   var listView = SliverFixedExtentList(
     itemExtent: 56,
     delegate: SliverChildBuilderDelegate(
-            (_, index) => ListTile(title: Text('$index')),
+        (_, index) => ListTile(title: Text('$index')),
         childCount: 10),
   );
 
@@ -1343,8 +1397,7 @@ class CustomScrollView1 extends StatelessWidget {
 class CustomScrollView2 extends StatelessWidget {
   var listView = ListView.builder(
       itemCount: 20,
-      itemBuilder: (_, index) =>
-          ListTile(
+      itemBuilder: (_, index) => ListTile(
             title: Text('$index'),
           ));
 
@@ -1450,11 +1503,10 @@ class SingleChildScrollViewTestRoute extends StatelessWidget {
             child: Column(
               children: str
                   .split("")
-                  .map((c) =>
-                  Text(
-                    c,
-                    textScaleFactor: 2.0,
-                  ))
+                  .map((c) => Text(
+                        c,
+                        textScaleFactor: 2.0,
+                      ))
                   .toList(),
             ),
           ),
@@ -1778,7 +1830,7 @@ class DecoratedBoxLayout extends StatelessWidget {
         child: DecoratedBox(
           decoration: BoxDecoration(
               gradient:
-              LinearGradient(colors: [Colors.red, Colors.orange.shade700]),
+                  LinearGradient(colors: [Colors.red, Colors.orange.shade700]),
               borderRadius: BorderRadius.circular(3.0),
               boxShadow: [
                 BoxShadow(
@@ -2209,15 +2261,12 @@ class ColumnLayout2 extends StatelessWidget {
           children: <Widget>[
             Expanded(
                 child: Container(
-                  color: Colors.red,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Text("hello world "),
-                      Text("I am Jack ")
-                    ],
-                  ),
-                ))
+              color: Colors.red,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[Text("hello world "), Text("I am Jack ")],
+              ),
+            ))
           ],
         ),
       ),
@@ -2299,7 +2348,7 @@ class BoxLayout extends StatelessWidget {
       body: Center(
         child: ConstrainedBox(
           constraints:
-          BoxConstraints(minWidth: double.infinity, minHeight: 50.0),
+              BoxConstraints(minWidth: double.infinity, minHeight: 50.0),
           child: Container(
             height: 5.0,
             child: redBox,
@@ -2364,12 +2413,12 @@ class _InputWidget extends State<InputWidget> {
                 children: <Widget>[
                   Expanded(
                       child: ElevatedButton(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text("登录"),
-                        ),
-                        onPressed: () {},
-                      ))
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text("登录"),
+                    ),
+                    onPressed: () {},
+                  ))
                 ],
               ),
             )

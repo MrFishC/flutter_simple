@@ -9,6 +9,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_simple/widget/index.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'fn_go/fn_error.dart';
+import 'fn_go/fn_net.dart';
 import 'fn_go/test_request.dart';
 
 void main() {
@@ -133,6 +135,16 @@ class _FnGoTestPageState extends State<FnGoTestPage> {
     TestRequest request = TestRequest();
     request.add("aid", "7");
     print("fn_go object:${request.url()}");
+    try {
+      var result = await FnNet.getInstance().fire(request);
+      print(result);
+    } on NeedAuth catch (e) {
+      print(e);
+    } on NeedLogin catch (e) {
+      print(e);
+    } on FnError catch (e) {
+      print(e);
+    }
   }
 }
 

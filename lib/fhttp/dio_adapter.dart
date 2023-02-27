@@ -32,11 +32,10 @@ class DioAdapter extends FnAdapter {
     return buildRes(response, request);
   }
 
-// todo  重学 Future
-
   ///构建FnResponse
   Future<FnResponse<T>> buildRes<T>(
       Response? response, BaseRequest request) {
+    //Future（异步任务的封装） 类似于js的promise   Future.value 是Future的静态方法
     return Future.value(FnResponse(
       //?.防止response为空
         data: response?.data,

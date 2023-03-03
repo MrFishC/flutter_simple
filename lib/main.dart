@@ -68,6 +68,7 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
   Widget build(BuildContext context) {
     FnNavigator.getInstance().managerStack();
 
+    // WillPopScope：Android物理返回键无法返回上一页的问题 https://github.com/flutter/flutter/issues/66349
     return WillPopScope(
         child: Navigator(
           key: navigatorKey,

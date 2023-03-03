@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../pages/demo_home_page.dart';
 import '../pages/favorite_page.dart';
+import '../pages/home_page.dart';
+import '../pages/home_tab_page.dart';
 import '../pages/profile_page.dart';
 import '../pages/ranking_page.dart';
 import '../util/color.dart';
@@ -23,7 +25,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    _pages = [DemoHomePage(), RankingPage(), FavoritePage(), ProfilePage()];
+    _pages = [HomePage(), RankingPage(), FavoritePage(), ProfilePage()];
     return Scaffold(
       body: PageView(
         controller: _controller,

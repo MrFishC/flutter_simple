@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../pages/demo_home_page.dart';
 import '../pages/demo_target2_page.dart';
+import '../pages/home_page.dart';
+import '../pages/home_tab_page.dart';
 import '../pages/login_page.dart';
 import '../pages/registration_page.dart';
 import 'bottom_navigator.dart';
@@ -14,7 +16,7 @@ MaterialPage pageWrap(Widget child) {
 }
 
 RouteStatus getStatus(MaterialPage page) {
-  if (page.child is DemoHomePage) {
+  if (page.child is HomePage) {
     return RouteStatus.home;
   } else if (page.child is DemoTargetPage2) {
     return RouteStatus.target2;
@@ -60,8 +62,8 @@ class FnNavigator extends _RouteJumpListener {
 
   Map? args;
 
-  //当前页面
-  RouteStatus currentRouteStatus = RouteStatus.login;
+  //设置启动页面   默认设置为首页
+  RouteStatus currentRouteStatus = RouteStatus.home;
 
   //3.3.注册路由跳转逻辑
   void registerRouteJump(RouteJumpListener routeJumpListener) {

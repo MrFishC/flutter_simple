@@ -6,6 +6,7 @@ import '../pages/home_page.dart';
 import '../pages/home_tab_page.dart';
 import '../pages/login_page.dart';
 import '../pages/registration_page.dart';
+import '../pages/vedio_detail.dart';
 import 'bottom_navigator.dart';
 
 // 1.定义路由参数 RouterDelegate的实现类中的泛型使用
@@ -24,6 +25,8 @@ RouteStatus getStatus(MaterialPage page) {
     return RouteStatus.login;
   } else if (page.child is RegistrationPage) {
     return RouteStatus.registration;
+  }else if(page.child is VideoDetailPage){
+    return RouteStatus.vedioDeatil;
   } else {
     return RouteStatus.unknown;
   }
@@ -38,7 +41,7 @@ class RouteStatusInfo {
 }
 
 // 2.配置枚举
-enum RouteStatus { login, registration, home, detail, unknown, target2 }
+enum RouteStatus { login, registration, home, unknown, target2,vedioDeatil }
 
 // 3.导航栏框架的 单例对象
 class FnNavigator extends _RouteJumpListener {
@@ -119,6 +122,8 @@ class FnNavigator extends _RouteJumpListener {
       page = pageWrap(RegistrationPage());
     } else if (routeStatus == RouteStatus.login) {
       page = pageWrap(LoginPage());
+    }else if(routeStatus == RouteStatus.vedioDeatil){
+      page = pageWrap(VideoDetailPage(args?["video"]));
     }
     print("导航框架 page ${page}");
     return page;

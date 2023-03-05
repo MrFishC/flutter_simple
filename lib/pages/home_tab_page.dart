@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import '../api/video.dart';
 import '../dao/home_dao.dart';
 import '../model/home_model.dart';
+import '../model/video_model.dart';
 import '../util/color.dart';
 import '../widget/banner.dart';
 import '../widget/video_card.dart';
@@ -18,6 +20,8 @@ class _HomeTabPageState extends State<HomeTabPage> {
   int pageIndex = 1;
   int pageSize = 10;
   List<HomeMo> data = [];
+
+  List<VideoModel> _videos = videos.toList();
 
   ScrollController _scrollController = ScrollController();
 
@@ -60,7 +64,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                           padding: EdgeInsets.only(bottom: 8),
                           child: _banner());
                     } else {
-                      return VideoCard(model: data[index]);
+                      return VideoCard(videoMo: _videos[index]);
                     }
                   },
                   staggeredTileBuilder: (int index) {

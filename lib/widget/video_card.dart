@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 
+import '../fnavigator/fn_navigator.dart';
 import '../model/home_model.dart';
+import '../model/video_model.dart';
 import '../util/format_util.dart';
 import '../util/view_util.dart';
 
 ///视频卡片
 class VideoCard extends StatelessWidget {
-  HomeMo? model;
+  // HomeMo? model;
+  final VideoModel videoMo;
 
-  VideoCard({Key? key, this.model}) : super(key: key);
+  VideoCard({Key? key, required this.videoMo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
         //InkWell组件:在用户点击时出现“水波纹”效果
-        onTap: () {},
+        onTap: () {
+          FnNavigator.getInstance()
+              .onJumpTo(RouteStatus.vedioDeatil, args: {"video": videoMo});
+        },
         child: SizedBox(
           // 与 Container 不同，SizedBox 是一个透明的盒子，不能为其设置样式(例如，背景颜色、边距、填充等)。
           // 如果为 SizedBox 指定特定大小，则该大小也将应用于其子小部件。否则，如果未指定 SizedBox 的宽度或为 null，
@@ -54,8 +60,11 @@ class VideoCard extends StatelessWidget {
     // Stack：可以容纳多个组件，以叠加的方式摆放子组件，后者居上  https://blog.csdn.net/u013290250/article/details/121751397
     return Stack(
       children: [
-        cachedImage(model?.pic ?? "", width: size.width / 2 - 10, height: 120),
-        Positioned(     //组件Positioned：精准堆叠布局内部，子组件的位置与排列
+        // cachedImage(model?.pic ?? "", width: size.width / 2 - 10, height: 120),
+        cachedImage(videoMo.cover ?? "",
+            width: size.width / 2 - 10, height: 120),
+        Positioned(
+            //组件Positioned：精准堆叠布局内部，子组件的位置与排列
             left: 0,
             right: 0,
             bottom: 0,
@@ -63,7 +72,7 @@ class VideoCard extends StatelessWidget {
               padding: EdgeInsets.only(left: 8, right: 8, bottom: 3, top: 5),
               decoration: BoxDecoration(
                   //渐变色
-                //线性渐变: https://www.jianshu.com/p/ba7eb561ba17
+                  //线性渐变: https://www.jianshu.com/p/ba7eb561ba17
                   gradient: LinearGradient(
                       //AlignmentGeometry类型:https://blog.csdn.net/a136447572/article/details/128261622
                       begin: Alignment.bottomCenter,
@@ -73,12 +82,16 @@ class VideoCard extends StatelessWidget {
                 // MainAxisAlignment（主轴）就是与当前控件方向一致的轴
                 // 在水平方向控件中，例如Row          默认起始位置在左边，排列方向为从左至右
                 // 在垂直方向的控件中，例如Column     MainAxisAlignment是垂直的，默认起始位置在上边，排列方向为从上至下
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,  //MainAxisAlignment.spaceBetween:将主轴空白位置进行均分,排列子元素,首尾子控件距边缘没有间隙
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //MainAxisAlignment.spaceBetween:将主轴空白位置进行均分,排列子元素,首尾子控件距边缘没有间隙
                 children: [
-                  _iconText(Icons.ondemand_video, count: model?.aid ?? 0),
-                  _iconText(Icons.favorite_border,
-                      count: model?.favorites ?? 0),
-                  _iconText(null, duration: model?.duration),
+                  _iconText(Icons.ondemand_video, videoMo.view),
+                  _iconText(Icons.favorite_border, videoMo.favorite),
+                  _iconText(null, videoMo.duration)
+                  // _iconText(Icons.ondemand_video, count: model?.aid ?? 0),
+                  // _iconText(Icons.favorite_border,
+                  //     count: model?.favorites ?? 0),
+                  // _iconText(null, duration: model?.duration),
                 ],
               ),
             ))
@@ -87,12 +100,28 @@ class VideoCard extends StatelessWidget {
   }
 
   //方法中使用{} :可选命名参数，另外使用[]，可选位置参数。  使用注意事项：  https://blog.csdn.net/u013095264/article/details/101290135
-  _iconText(IconData? iconData, {int? count, String? duration}) {
+  _iconText(IconData? iconData, int count) {
+    // _iconText(IconData? iconData, {int? count, String? duration}) {
+    //   String views = "";
+    //   if (iconData != null) {
+    //     views = count != null ? countFormat(count) : "";
+    //   } else {
+    //     views = model?.duration ?? "00:00";
+    //   }
+    //   return Row(
+    //     children: [
+    //       if (iconData != null) Icon(iconData, color: Colors.white, size: 12),
+    //       Padding(
+    //           padding: EdgeInsets.only(left: 3),
+    //           child: Text(views,
+    //               style: TextStyle(color: Colors.white, fontSize: 10)))
+    //     ],
+    //   );
     String views = "";
     if (iconData != null) {
-      views = count != null ? countFormat(count) : "";
+      views = countFormat(count);
     } else {
-      views = model?.duration ?? "00:00";
+      views = durationTransform(videoMo.duration);
     }
     return Row(
       children: [
@@ -109,6 +138,26 @@ class VideoCard extends StatelessWidget {
     // 【flutter】Expanded组件 ： https://blog.csdn.net/devnn/article/details/105892081
     //copy from @{ https://blog.csdn.net/devnn/article/details/105892081}： Expanded组件是flutter中使用率很高的一个组件，
     // 它可以动态调整child组件沿主轴的尺寸，比如填充剩余空间，比如设置尺寸比例。它常常和Row或Column组合起来使用。
+
+    // return Expanded(
+    //     child: Container(
+    //   padding: EdgeInsets.only(top: 5, left: 8, right: 8, bottom: 5),
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //     children: [
+    //       Text(
+    //         model?.title ?? "",
+    //         maxLines: 2,
+    //         overflow: TextOverflow.ellipsis,
+    //         style: TextStyle(fontSize: 12, color: Colors.black87),
+    //       ),
+    //       //作者
+    //       _owner()
+    //     ],
+    //   ),
+    // ));
+
     return Expanded(
         child: Container(
       padding: EdgeInsets.only(top: 5, left: 8, right: 8, bottom: 5),
@@ -117,7 +166,7 @@ class VideoCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            model?.title ?? "",
+            videoMo.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 12, color: Colors.black87),
@@ -130,6 +179,7 @@ class VideoCard extends StatelessWidget {
   }
 
   _owner() {
+    var owner = videoMo.owner;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -137,12 +187,11 @@ class VideoCard extends StatelessWidget {
           children: [
             ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: cachedImage(model?.lastRecommend?.last.face ?? "",
-                    height: 24, width: 24)),
+                child: cachedImage(owner.face, height: 24, width: 24)),
             Padding(
               padding: EdgeInsets.only(left: 8),
               child: Text(
-                model?.lastRecommend?.last.uname ?? "",
+                owner.name,
                 style: TextStyle(fontSize: 11, color: Colors.black87),
               ),
             )

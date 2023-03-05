@@ -16,6 +16,12 @@ const MaterialColor white = const MaterialColor(
   },
 );
 
+class FwColor {
+  static const Color red = Color(0xFFFF4759);
+  static const Color dark_red = Color(0xFFE03E4E);
+  static const Color dark_bg = Color(0xFF18191A);
+}
+
 ///主色调
 const MaterialColor primary = const MaterialColor(
   0xfffb7299,

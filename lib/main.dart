@@ -5,8 +5,12 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_simple/fhttp/fc_cache.dart';
+import 'package:flutter_simple/theme/provider.dart';
+import 'package:flutter_simple/theme/theme_provider.dart';
 import 'package:flutter_simple/widget/index.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'fhttp/fn_error.dart';
 import 'fhttp/fn_net.dart';
@@ -44,7 +48,37 @@ class _BibiPageState extends State<BibiPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Router(routerDelegate: _routeDelegate);
+    // return Router(routerDelegate: _routeDelegate);
+    return MaterialApp(
+      home: FutureBuilder(
+          future: FcCache.preInit(),
+          builder: (BuildContext context,AsyncSnapshot<dynamic> snapshot){
+            var widget = snapshot.connectionState == ConnectionState.done ?
+                Router(routerDelegate: _routeDelegate):Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+
+            return MultiProvider(
+              providers: topProviders,
+              child: Consumer<ThemeProvider>(
+                //builder方法：  参数2，获取最近一个祖先节点中的数据类型   参数3：用来构建与provider中数据模型无关的部分
+                //当泛型数据变化 就会通知 build重构
+                builder: (BuildContext context,ThemeProvider themeProvider,
+                    Widget? child){
+                  return MaterialApp(
+                    home: widget,
+                    theme: themeProvider.getTheme(),
+                    darkTheme: themeProvider.getTheme(isDarkMode: true),
+                    themeMode: themeProvider.getThemeMode()
+                  );
+                },
+              ),
+            );
+          }
+      ),
+    );
   }
 }
 

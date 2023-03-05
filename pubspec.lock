@@ -61,10 +61,10 @@ packages:
     dependency: "direct main"
     description:
       name: chewie
-      sha256: e9da4898ee4859825404f507969f57113c04ca0060e152b95c9afd73934126ad
+      sha256: da986fc618e01f22fa39da99da42152d8e0b572c767f8a6db9beaa3f6853d386
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.4.0"
+    version: "1.2.2"
   clock:
     dependency: transitive
     description:
@@ -401,13 +401,13 @@ packages:
     source: hosted
     version: "4.2.4"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
-      sha256: cdbe7530b12ecd9eb455bdaa2fcb8d4dad22e80b8afb4798b41479d5ce26847f
+      sha256: "59471e0a4595e264625d3496af567ac85bdae1148ec985aff1e0555786f53ecf"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.0.5"
+    version: "5.0.0"
   rxdart:
     dependency: transitive
     description:
@@ -633,10 +633,10 @@ packages:
     dependency: transitive
     description:
       name: wakelock
-      sha256: "769ecf42eb2d07128407b50cb93d7c10bd2ee48f0276ef0119db1d25cc2f87db"
+      sha256: da22c0789e1f849bec43688a52f2290f4e66268056f7cd77cb71245aef4917a0
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.6.2"
+    version: "0.5.6"
   wakelock_macos:
     dependency: transitive
     description:

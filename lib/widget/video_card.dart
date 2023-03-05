@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../fnavigator/fn_navigator.dart';
 import '../model/home_model.dart';
 import '../model/video_model.dart';
+import '../theme/theme_provider.dart';
 import '../util/format_util.dart';
 import '../util/view_util.dart';
 
@@ -15,6 +17,9 @@ class VideoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = context.watch<ThemeProvider>();
+    Color textColor = themeProvider.isDark() ? Colors.white70 : Colors.black87;
+
     return InkWell(
         //InkWell组件:在用户点击时出现“水波纹”效果
         onTap: () {
@@ -47,7 +52,8 @@ class VideoCard extends StatelessWidget {
                 // crossAxisAlignment:CrossAxisAlignment.start 水平顶部。
                 // https://blog.csdn.net/qq_34707150/article/details/123247280
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [_itemImage(context), _infoText()],
+                // children: [_itemImage(context), _infoText()],
+                children: [_itemImage(context),_infoText(textColor)],
               ),
             ),
           ),
@@ -134,7 +140,7 @@ class VideoCard extends StatelessWidget {
     );
   }
 
-  _infoText() {
+  _infoText(textColor) {
     // 【flutter】Expanded组件 ： https://blog.csdn.net/devnn/article/details/105892081
     //copy from @{ https://blog.csdn.net/devnn/article/details/105892081}： Expanded组件是flutter中使用率很高的一个组件，
     // 它可以动态调整child组件沿主轴的尺寸，比如填充剩余空间，比如设置尺寸比例。它常常和Row或Column组合起来使用。
@@ -172,13 +178,13 @@ class VideoCard extends StatelessWidget {
             style: TextStyle(fontSize: 12, color: Colors.black87),
           ),
           //作者
-          _owner()
+          _owner(textColor)
         ],
       ),
     ));
   }
 
-  _owner() {
+  _owner(textColor) {
     var owner = videoMo.owner;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

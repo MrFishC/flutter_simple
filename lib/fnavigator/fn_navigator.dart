@@ -7,6 +7,7 @@ import '../pages/home_tab_page.dart';
 import '../pages/login_page.dart';
 import '../pages/registration_page.dart';
 import '../pages/vedio_detail.dart';
+import '../theme/dark_mode_page.dart';
 import 'bottom_navigator.dart';
 
 // 1.定义路由参数 RouterDelegate的实现类中的泛型使用
@@ -27,6 +28,8 @@ RouteStatus getStatus(MaterialPage page) {
     return RouteStatus.registration;
   }else if(page.child is VideoDetailPage){
     return RouteStatus.vedioDeatil;
+  }else if(page.child is DarkModePage){
+    return RouteStatus.darkMode;
   } else {
     return RouteStatus.unknown;
   }
@@ -41,7 +44,7 @@ class RouteStatusInfo {
 }
 
 // 2.配置枚举
-enum RouteStatus { login, registration, home, unknown, target2,vedioDeatil }
+enum RouteStatus { login, registration, home, unknown, target2,vedioDeatil,darkMode }
 
 // 3.导航栏框架的 单例对象
 class FnNavigator extends _RouteJumpListener {
@@ -124,6 +127,8 @@ class FnNavigator extends _RouteJumpListener {
       page = pageWrap(LoginPage());
     }else if(routeStatus == RouteStatus.vedioDeatil){
       page = pageWrap(VideoDetailPage(args?["video"]));
+    }else if(routeStatus == RouteStatus.darkMode){
+      page = pageWrap(DarkModePage());
     }
     print("导航框架 page ${page}");
     return page;

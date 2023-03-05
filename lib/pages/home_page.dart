@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_simple/core/fw_state.dart';
+import 'package:provider/provider.dart';
 import 'package:underline_indicator/underline_indicator.dart';
 import '../dao/home_dao.dart';
 import '../model/home_model.dart';
+import '../theme/theme_provider.dart';
 import '../util/color.dart';
 import '../util/navigation_bar.dart';
 import '../util/view_util.dart';
@@ -16,7 +18,9 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends FwState<HomePage> with AutomaticKeepAliveClientMixin,TickerProviderStateMixin{
+class _HomePageState extends FwState<HomePage>
+    with AutomaticKeepAliveClientMixin,
+    TickerProviderStateMixin,WidgetsBindingObserver{
   var listener;
   List<HomeMo>? data = [];
 
@@ -38,6 +42,13 @@ class _HomePageState extends FwState<HomePage> with AutomaticKeepAliveClientMixi
     // });
 
     loadData();
+  }
+
+  /// 监听系统变化
+  @override
+  void didChangePlatformBrightness() {
+    context.read<ThemeProvider>().darModeChange();
+    super.didChangePlatformBrightness();
   }
 
   @override

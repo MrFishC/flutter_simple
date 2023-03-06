@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_simple/core/fw_state.dart';
 import 'package:provider/provider.dart';
 import 'package:underline_indicator/underline_indicator.dart';
+import '../api/types.dart';
+import '../api/video.dart';
 import '../dao/home_dao.dart';
+import '../fhttp/fn_error.dart';
 import '../model/home_model.dart';
+import '../model/video_model.dart';
 import '../theme/theme_provider.dart';
 import '../util/color.dart';
 import '../util/navigation_bar.dart';
+import '../util/toast.dart';
 import '../util/view_util.dart';
 import '../widget/loading_container.dart';
 import 'home_tab_page.dart';
@@ -22,12 +27,17 @@ class _HomePageState extends FwState<HomePage>
     with AutomaticKeepAliveClientMixin,
     TickerProviderStateMixin,WidgetsBindingObserver{
   var listener;
-  List<HomeMo>? data = [];
+  // List<HomeMo>? data = [];
+  List<VideoModel> data = videos.toList();
 
   late TabController _controller;
-  var tabs = ["推荐", "热门", "追播", "影视", "搞笑", "日常", "综合", "手机游戏", "短片·手书·配音"];
+  var tid = 0;
+  // var tabs = ["推荐", "热门", "追播", "影视", "搞笑", "日常", "综合", "手机游戏", "短片·手书·配音"];
+  var tabs = types.keys.toList();
 
   bool _isLoading = true;
+
+  int pageIndex = 1;
 
   @override
   void initState() {
@@ -41,7 +51,7 @@ class _HomePageState extends FwState<HomePage>
     //   }
     // });
 
-    loadData();
+    loadData(tid);
   }
 
   /// 监听系统变化
@@ -80,7 +90,13 @@ class _HomePageState extends FwState<HomePage>
                 child: TabBarView(
                     controller: _controller,
                     children: tabs.map((tab) {
-                      return HomeTabPage();
+                      return HomeTabPage(
+                        name: tab,
+                        bannerList: videos.isNotEmpty
+                            ? videos.toList().sublist(0, 5)
+                            : videos.toList(),
+                        tid: tid,
+                      );
                     }).toList()))
           ],
         ),
@@ -113,13 +129,42 @@ class _HomePageState extends FwState<HomePage>
         }).toList());
   }
 
-  void loadData() async {
-    List<HomeMo> homeData = await HomeDao.loadHomeRecommend(0);
-    print("===================data:$data");
-    setState(() {
-      data = homeData;
-      _isLoading = false;
-    });
+  void loadData(int tid, {loadMore = false}) async {
+    if (!loadMore) {
+      pageIndex = 1;
+    }
+    // List<HomeMo> homeData = await HomeDao.loadHomeRecommend(0);
+    // print("===================data:$data");
+    // setState(() {
+    //   data = homeData;
+    //   _isLoading = false;
+    // });
+
+    try {
+      List<VideoModel> homeDatas = videos.toList();
+      setState(() {
+        if (mounted) {
+          //合并
+          data = [...data, ...homeDatas];
+          if (homeDatas != null) {
+            pageIndex++;
+          }
+          _isLoading = false;
+        }
+      });
+    } on NeedAuth catch (e) {
+      // print(e);
+      showWarnToast(e.message);
+      setState(() {
+        _isLoading = false;
+      });
+    } on FnError catch (e) {
+      // print(e);
+      showWarnToast(e.message);
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   _appBar() {

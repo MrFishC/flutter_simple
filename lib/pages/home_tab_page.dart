@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import '../api/profile.dart';
 import '../api/video.dart';
 import '../dao/home_dao.dart';
+import '../fhttp/fn_error.dart';
 import '../model/home_model.dart';
+import '../model/profile_mo.dart';
 import '../model/video_model.dart';
 import '../util/color.dart';
+import '../util/toast.dart';
 import '../widget/banner.dart';
 import '../widget/video_card.dart';
 
 class HomeTabPage extends StatefulWidget {
-  const HomeTabPage({Key? key}) : super(key: key);
+  final String name;
+  final List<VideoModel> bannerList;
+  int tid = 0;
+
+  HomeTabPage(
+      {Key? key,
+      required this.name,
+      required this.bannerList,
+      required this.tid})
+      : super(key: key);
 
   @override
   _HomeTabPageState createState() => _HomeTabPageState();
@@ -19,10 +32,8 @@ class HomeTabPage extends StatefulWidget {
 class _HomeTabPageState extends State<HomeTabPage> {
   int pageIndex = 1;
   int pageSize = 10;
-  List<HomeMo> data = [];
-
+  // List<HomeMo> data = [];
   List<VideoModel> _videos = videos.toList();
-
   ScrollController _scrollController = ScrollController();
 
   @override
@@ -34,10 +45,10 @@ class _HomeTabPageState extends State<HomeTabPage> {
           _scrollController.position.pixels;
       if (dis < 300) {
         print("小于300尺寸");
-        _loadData(loadMore: true);
+        _loadData(tid: widget.tid,loadMore: true);
       }
     });
-    _loadData();
+    _loadData(tid: widget.tid);
   }
 
   @override
@@ -56,10 +67,12 @@ class _HomeTabPageState extends State<HomeTabPage> {
                   //设置滑动效果  注意点，ListView在使用这个属性时，需要将itemview充满整个ListView才会出现对应的效果  这里可能也有类似问题
                   padding: EdgeInsets.only(top: 10, left: 10, right: 10),
                   crossAxisCount: 2,
-                  itemCount: data.length,
+                  itemCount: _videos.length,
+                  // itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
                     //有banner时第一个item位置显示banner
-                    if (data != null && index == 0) {
+                    // if (data != null && index == 0) {
+                    if (_videos != null && index == 0) {
                       return Padding(
                           padding: EdgeInsets.only(bottom: 8),
                           child: _banner());
@@ -68,7 +81,8 @@ class _HomeTabPageState extends State<HomeTabPage> {
                     }
                   },
                   staggeredTileBuilder: (int index) {
-                    if (data != null && index == 0) {
+                    // if (data != null && index == 0) {
+                    if (_videos  != null && index == 0) {
                       return StaggeredTile.fit(2);
                     } else {
                       return StaggeredTile.fit(1);
@@ -78,10 +92,12 @@ class _HomeTabPageState extends State<HomeTabPage> {
     );
   }
 
+  ProfileMo _profileMo = ProfileMo.fromJson(profiles);
+
   _banner() {
     return Padding(
         padding: EdgeInsets.only(left: 5, right: 5),
-        child: FcBanner(data.sublist(0, 5)));
+        child: FcBanner(_profileMo.bannerList));
   }
 
   void loadData() async {
@@ -90,18 +106,39 @@ class _HomeTabPageState extends State<HomeTabPage> {
   }
 
   ///loadMore 是否加载
-  Future<void> _loadData({loadMore = false}) async {
+  Future<void> _loadData({int tid = 0, loadMore = false}) async {
+    // if (!loadMore) {
+    //   pageIndex = 1;
+    // }
+    // var currentIndex = pageIndex + (loadMore ? 1 : 0);
+    // List<HomeMo> homeData = await HomeDao.loadHomeRecommend(0,
+    //     pageSize: pageSize, pageIndex: currentIndex);
+    // setState(() {
+    //   data = [...data, ...homeData];
+    //   if (homeData.isNotEmpty) {
+    //     pageIndex++;
+    //   }
+    // });
+
+    // print("参数信息 ${_videos[0]}");
+
     if (!loadMore) {
       pageIndex = 1;
     }
-    var currentIndex = pageIndex + (loadMore ? 1 : 0);
-    List<HomeMo> homeData = await HomeDao.loadHomeRecommend(0,
-        pageSize: pageSize, pageIndex: currentIndex);
-    setState(() {
-      data = [...data, ...homeData];
-      if (homeData.isNotEmpty) {
-        pageIndex++;
-      }
-    });
+    try {
+      List<VideoModel> homeDatas = videos.toList();
+      setState(() {
+        if (mounted) {
+          //合并
+          _videos = [..._videos, ...homeDatas];
+          if (homeDatas != null) {
+            pageIndex++;
+          }
+        }
+      });
+    } on NeedAuth catch (e) {
+      // print(e);
+      showWarnToast(e.message);
+    }
   }
 }

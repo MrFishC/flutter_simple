@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import '../model/home_model.dart';
+import '../model/profile_mo.dart';
 
 //自定义banner
 class FcBanner extends StatelessWidget {
-  final List<HomeMo> bannerList;
+  final List<BannerMo> bannerList;
+  // final List<HomeMo> bannerList;
   final double bannerHeight;
   final EdgeInsetsGeometry? padding;
 
@@ -38,7 +40,8 @@ class FcBanner extends StatelessWidget {
     );
   }
 
-  _image(HomeMo bannerMo) {
+  _image(BannerMo bannerMo) {
+  // _image(HomeMo bannerMo) {
     return InkWell(
       onTap: () {
         print(bannerMo.title);
@@ -48,7 +51,8 @@ class FcBanner extends StatelessWidget {
         padding: padding,
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(6)),
-          child: Image.network(bannerMo.pic ?? "", fit: BoxFit.cover),
+          // child: Image.network(bannerMo.pic ?? "", fit: BoxFit.cover),
+          child: Image.network(bannerMo.cover ?? "", fit: BoxFit.cover),
         ),
       ),
     );

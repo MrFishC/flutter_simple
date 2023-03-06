@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../fnavigator/fn_navigator.dart';
-import '../model/home_model.dart';
 import '../model/video_model.dart';
 import '../theme/theme_provider.dart';
 import '../util/format_util.dart';

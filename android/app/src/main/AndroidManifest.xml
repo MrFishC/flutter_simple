@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jack.flutter_simple.flutter_simple">
-   <application
-        android:label="flutter_simple"
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:label="f_哔哩"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

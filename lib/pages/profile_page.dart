@@ -1,8 +1,8 @@
+import 'package:f_util_go/util/view_util.dart';
 import 'package:flutter/material.dart';
 import '../api/profile.dart';
 import '../model/profile_mo.dart';
 import '../theme/dark_mode_item.dart';
-import '../util/view_util.dart';
 import '../widget/banner.dart';
 import '../widget/blur.dart';
 import '../widget/course_card.dart';

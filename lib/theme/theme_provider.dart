@@ -1,7 +1,7 @@
 import 'package:f_net_go/cache/fc_cache.dart';
+import 'package:f_util_go/util/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import '../util/color.dart';
 import '../util/constants.dart';
 
 //extension 可以在不更改类或创建子类的情况下，向类添加扩展功能的一种方式。灵活使用 extension 对基础类进行扩展，对开发效率有显著提升。

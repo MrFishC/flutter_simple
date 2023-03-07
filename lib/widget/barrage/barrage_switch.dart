@@ -1,7 +1,6 @@
 //barrage.dart
+import 'package:f_util_go/util/color.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../util/color.dart';
 
 class BarrageSwitch extends StatefulWidget {
   ///初始时是否展开

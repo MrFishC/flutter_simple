@@ -1,8 +1,8 @@
+import 'package:f_util_go/util/view_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_simple/fnavigator/fn_navigator.dart';
 import 'package:provider/provider.dart';
 import '../theme/theme_provider.dart';
-import '../util/view_util.dart';
 
 class DarkModelItem extends StatelessWidget {
   @override

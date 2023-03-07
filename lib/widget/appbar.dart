@@ -1,6 +1,5 @@
+import 'package:f_util_go/util/view_util.dart';
 import 'package:flutter/material.dart';
-
-import '../util/view_util.dart';
 
 ///自定义顶部appBar
 appBar(String title, String rightTitle, VoidCallback? rightButtonClick) {

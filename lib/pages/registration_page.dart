@@ -1,5 +1,5 @@
+import 'package:f_util_go/util/string_util.dart';
 import 'package:flutter/material.dart';
-import '../util/string_util.dart';
 import '../widget/appbar.dart';
 import '../widget/login_button.dart';
 import '../widget/login_effect.dart';

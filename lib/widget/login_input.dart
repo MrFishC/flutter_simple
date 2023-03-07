@@ -1,5 +1,5 @@
+import 'package:f_util_go/util/color.dart';
 import 'package:flutter/material.dart';
-import '../util/color.dart';
 
 ///登录输入框，自定义widget
 class LoginInput extends StatefulWidget {

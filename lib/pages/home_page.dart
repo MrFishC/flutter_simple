@@ -1,17 +1,16 @@
 import 'package:f_net_go/exception/fn_error.dart';
+import 'package:f_util_go/util/color.dart';
+import 'package:f_util_go/util/toast.dart';
+import 'package:f_util_go/util/view_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_simple/core/fw_state.dart';
 import 'package:provider/provider.dart';
 import 'package:underline_indicator/underline_indicator.dart';
-
 import '../api/types.dart';
 import '../api/video.dart';
 import '../model/video_model.dart';
 import '../theme/theme_provider.dart';
-import '../util/color.dart';
 import '../util/navigation_bar.dart';
-import '../util/toast.dart';
-import '../util/view_util.dart';
 import '../widget/loading_container.dart';
 import 'home_tab_page.dart';
 

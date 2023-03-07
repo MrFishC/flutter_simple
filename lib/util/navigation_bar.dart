@@ -1,8 +1,9 @@
+import 'package:f_util_go/util/color.dart';
+import 'package:f_util_go/util/view_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_simple/util/color.dart';
 import 'package:provider/provider.dart';
+
 import '../theme/theme_provider.dart';
-import '../util/view_util.dart';
 
 ///可自定义样式的沉浸式导航栏
 class NavigationBarPlus extends StatefulWidget {

@@ -1,7 +1,6 @@
+import 'package:f_util_go/util/color.dart';
+import 'package:f_util_go/util/view_util.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../util/color.dart';
-import '../../../../util/view_util.dart';
 
 ///弹幕输入界面
 class BarrageInput extends StatelessWidget {

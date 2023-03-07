@@ -1,9 +1,9 @@
+import 'package:f_util_go/util/color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:underline_indicator/underline_indicator.dart';
 
 import '../theme/theme_provider.dart';
-import '../util/color.dart';
 
 ///顶部tab切换组件
 class FwTab extends StatelessWidget {

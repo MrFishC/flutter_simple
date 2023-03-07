@@ -1,7 +1,7 @@
+import 'package:f_util_go/util/view_util.dart';
 import 'package:flutter/material.dart';
 
 import '../model/profile_mo.dart';
-import '../util/view_util.dart';
 
 ///职场进阶
 class CourseCard extends StatelessWidget {

@@ -1,10 +1,10 @@
 import 'package:chewie/chewie.dart' hide MaterialControls;
+import 'package:f_util_go/util/color.dart';
+import 'package:f_util_go/util/view_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_simple/widget/video_controls.dart';
 import 'package:video_player/video_player.dart';
 
-import '../util/color.dart';
-import '../util/view_util.dart';
 
 class VideoViewClass extends StatefulWidget {
   //URL

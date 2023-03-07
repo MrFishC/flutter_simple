@@ -1,4 +1,6 @@
 import 'package:f_net_go/exception/fn_error.dart';
+import 'package:f_util_go/util/color.dart';
+import 'package:f_util_go/util/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -8,8 +10,6 @@ import '../dao/home_dao.dart';
 import '../model/home_model.dart';
 import '../model/profile_mo.dart';
 import '../model/video_model.dart';
-import '../util/color.dart';
-import '../util/toast.dart';
 import '../widget/banner.dart';
 import '../widget/video_card.dart';
 

@@ -1,6 +1,6 @@
+import 'package:f_util_go/util/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_simple/theme/theme_provider.dart';
-import '../util/color.dart';
 import 'package:provider/provider.dart';
 
 ///夜间模式页面

@@ -1,12 +1,9 @@
+import 'package:f_util_go/util/color.dart';
 import 'package:flutter/material.dart';
-
-import '../pages/demo_home_page.dart';
 import '../pages/favorite_page.dart';
 import '../pages/home_page.dart';
-import '../pages/home_tab_page.dart';
 import '../pages/profile_page.dart';
 import '../pages/ranking_page.dart';
-import '../util/color.dart';
 
 ///底部导航
 class BottomNavigator extends StatefulWidget {

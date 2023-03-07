@@ -128,6 +128,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  f_util_go:
+    dependency: "direct main"
+    description:
+      path: f_util_go
+      relative: true
+    source: path
+    version: "0.0.1"
   fake_async:
     dependency: transitive
     description:

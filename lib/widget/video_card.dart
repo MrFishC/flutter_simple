@@ -1,11 +1,11 @@
+import 'package:f_util_go/util/format_util.dart';
+import 'package:f_util_go/util/view_util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../fnavigator/fn_navigator.dart';
 import '../model/video_model.dart';
 import '../theme/theme_provider.dart';
-import '../util/format_util.dart';
-import '../util/view_util.dart';
 
 ///视频卡片
 class VideoCard extends StatelessWidget {

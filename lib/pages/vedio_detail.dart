@@ -1,11 +1,11 @@
 import 'dart:io';
+import 'package:f_util_go/util/view_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_overlay/flutter_overlay.dart';
 import '../api/video.dart';
 import '../model/video_detail_model.dart';
 import '../model/video_model.dart';
 import '../util/navigation_bar.dart';
-import '../util/view_util.dart';
 import '../widget/appbar.dart';
 import '../widget/barrage/barrage.dart';
 import '../widget/barrage/barrage_input.dart';

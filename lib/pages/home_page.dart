@@ -1,12 +1,11 @@
+import 'package:f_net_go/exception/fn_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_simple/core/fw_state.dart';
 import 'package:provider/provider.dart';
 import 'package:underline_indicator/underline_indicator.dart';
+
 import '../api/types.dart';
 import '../api/video.dart';
-import '../dao/home_dao.dart';
-import '../fhttp/fn_error.dart';
-import '../model/home_model.dart';
 import '../model/video_model.dart';
 import '../theme/theme_provider.dart';
 import '../util/color.dart';

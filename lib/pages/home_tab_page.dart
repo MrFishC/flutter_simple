@@ -1,10 +1,10 @@
+import 'package:f_net_go/exception/fn_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../api/profile.dart';
 import '../api/video.dart';
 import '../dao/home_dao.dart';
-import '../fhttp/fn_error.dart';
 import '../model/home_model.dart';
 import '../model/profile_mo.dart';
 import '../model/video_model.dart';

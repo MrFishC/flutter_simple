@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 
-import 'base_request.dart';
-import 'fn_adapter.dart';
-import 'fn_error.dart';
+import '../base/base_request.dart';
+import '../base/fn_adapter.dart';
+import '../exception/fn_error.dart';
 
 class DioAdapter extends FnAdapter {
 
   @override
-  Future<FnResponse<T>> send<T>(BaseRequest request) async{
+  Future<FnResponse<T>> send<T>(FnBaseRequest request) async{
     var response,options = Options(headers:request.header);
     var error;
     try {
@@ -34,7 +34,7 @@ class DioAdapter extends FnAdapter {
 
   ///构建FnResponse
   Future<FnResponse<T>> buildRes<T>(
-      Response? response, BaseRequest request) {
+      Response? response, FnBaseRequest request) {
     //Future（异步任务的封装） 类似于js的promise   Future.value 是Future的静态方法
     return Future.value(FnResponse(
       //?.防止response为空

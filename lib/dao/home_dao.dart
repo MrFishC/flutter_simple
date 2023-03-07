@@ -1,10 +1,7 @@
-import 'dart:convert';
-
-import '../fhttp/base_request.dart';
-import '../fhttp/fn_net.dart';
+import 'package:f_net_go/base/base_request.dart';
+import 'package:f_net_go/manager/fn_net.dart';
 import '../model/home_model.dart';
 import '../request/home_request.dart';
-
 
 class HomeDao {
   static const AUTHORIZATION = "authorization";
@@ -14,7 +11,7 @@ class HomeDao {
   static loadHomeRecommend(int tid,
       {int pageIndex = 1, int pageSize = 1}) async {
     print("当前TID:$tid");
-    BaseRequest request = HomeVideoRequest();
+    FnBaseRequest request = HomeVideoRequest();
     request
         .add("tid", tid)
         .add("pageIndex", pageIndex)

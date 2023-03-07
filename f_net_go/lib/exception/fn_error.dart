@@ -17,3 +17,5 @@ class FnError implements Exception {
 
   FnError(this.code, this.message, {this.data});
 }
+
+typedef FnErrorInterceptor(FnError error);

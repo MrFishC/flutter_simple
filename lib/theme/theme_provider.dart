@@ -1,7 +1,6 @@
-
+import 'package:f_net_go/cache/fc_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_simple/fhttp/fc_cache.dart';
 import '../util/color.dart';
 import '../util/constants.dart';
 

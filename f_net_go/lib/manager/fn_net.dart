@@ -1,8 +1,8 @@
 
-import 'base_request.dart';
-import 'dio_adapter.dart';
-import 'fn_adapter.dart';
-import 'fn_error.dart';
+import '../base/base_request.dart';
+import '../net/dio_adapter.dart';
+import '../base/fn_adapter.dart';
+import '../exception/fn_error.dart';
 
 class FnNet{
   FnNet._();
@@ -16,7 +16,9 @@ class FnNet{
     return _instance!;
   }
 
-  Future fire(BaseRequest request) async {
+  FnErrorInterceptor? _fnErrorInterceptor;
+
+  Future fire(FnBaseRequest request) async {
     FnResponse? response;
     var error;
     try {
@@ -48,7 +50,7 @@ class FnNet{
     }
   }
 
-  Future<FnResponse<T>> send<T>(BaseRequest request) async {
+  Future<FnResponse<T>> send<T>(FnBaseRequest request) async {
     ///使用Dio发送请求
     FnAdapter adapter = DioAdapter();
     return adapter.send(request);
@@ -56,5 +58,9 @@ class FnNet{
 
   void printLog(log) {
     print('fn_net:' + log.toString());
+  }
+
+  void setErrorInterceptor(FnErrorInterceptor interceptor) {
+    this._fnErrorInterceptor = interceptor;
   }
 }

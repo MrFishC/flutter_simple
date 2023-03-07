@@ -1,24 +1,14 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-import 'dart:math' as math;
-
+import 'package:f_net_go/cache/fc_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_simple/fhttp/fc_cache.dart';
 import 'package:flutter_simple/theme/provider.dart';
 import 'package:flutter_simple/theme/theme_provider.dart';
-import 'package:flutter_simple/widget/index.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-
-import 'fhttp/fn_error.dart';
-import 'fhttp/fn_net.dart';
-import 'fhttp/test_request.dart';
+import 'exception/Defend.dart';
 import 'fnavigator/fn_navigator.dart';
 
 void main() {
-  runApp(const MyApp());
+  // runApp(const MyApp());
+  Defend().run(MyApp());
 }
 
 class MyApp extends StatelessWidget {

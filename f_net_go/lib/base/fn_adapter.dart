@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'base_request.dart';
 
 abstract class FnAdapter{
-  Future<FnResponse<T>> send<T>(BaseRequest request);
+  Future<FnResponse<T>> send<T>(FnBaseRequest request);
 }
 
+//根据后台提供的格式进行更改
 class FnResponse<T> {
   FnResponse({
     this.data,
@@ -19,7 +20,7 @@ class FnResponse<T> {
   T? data;
 
   /// 请求信息
-  BaseRequest request;
+  FnBaseRequest request;
 
   /// code
   int? statusCode;
